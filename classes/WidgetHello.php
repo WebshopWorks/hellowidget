@@ -1,62 +1,126 @@
 <?php
 /**
- * Hello Widget
+ * Hello widget for Creative Elements
  *
  * @author    WebshopWorks
- * @copyright 2020 WebshopWorks.com
+ * @copyright 2021 WebshopWorks.com
  */
 
 namespace CE;
 
 defined('_PS_VERSION_') or die;
 
+/**
+ * Hello widget class.
+ *
+ * This is a sample widget for developers.
+ */
 class WidgetHello extends WidgetBase
 {
+    /**
+     * Get widget name.
+     *
+     * Retrieve hello widget name.
+     *
+     * @access public
+     *
+     * @return string Widget name.
+     */
     public function getName()
     {
         return 'hello';
     }
 
+    /**
+     * Get widget title.
+     *
+     * Retrieve hello widget title.
+     *
+     * @access public
+     *
+     * @return string Widget title.
+     */
     public function getTitle()
     {
         return $this->l('Hello');
     }
 
+    /**
+     * Get widget icon.
+     *
+     * Retrieve hello widget icon.
+     *
+     * @access public
+     *
+     * @return string Widget icon.
+     */
     public function getIcon()
     {
         return 'fa fa-hand-paper-o';
     }
 
+    /**
+     * Get widget categories.
+     *
+     * Retrieve the list of categories the hello widget belongs to.
+     *
+     * Used to determine where to display the widget in the editor.
+     *
+     * @access public
+     *
+     * @return array Widget categories.
+     */
     public function getCategories()
     {
-        return array('prestashop');
+        return ['my-widgets'];
     }
 
+    /**
+     * Get widget keywords.
+     *
+     * Retrieve the list of keywords the widget belongs to.
+     *
+     * @access public
+     *
+     * @return array Widget keywords.
+     */
+    public function getKeywords()
+    {
+        return ['hello', 'developer', 'sample'];
+    }
+
+    /**
+     * Register hello widget controls.
+     *
+     * Adds different input fields to allow the user to change and customize the widget settings.
+     *
+     * @access protected
+     */
     protected function _registerControls()
     {
         $this->startControlsSection(
             'section_title',
-            array(
+            [
                 'label' => $this->l('Hello'),
-            )
+            ]
         );
 
         $this->addControl(
             'name',
-            array(
+            [
                 'label' => $this->l('Name'),
                 'type' => ControlsManager::TEXT,
                 'placeholder' => $this->l('Enter your name'),
                 'default' => $this->l('Developer'),
-            )
+            ]
         );
 
         $this->addControl(
             'header_size',
-            array(
+            [
                 'label' => __('HTML Tag'),
                 'type' => ControlsManager::SELECT,
-                'options' => array(
+                'options' => [
                     'h1' => __('H1'),
                     'h2' => __('H2'),
                     'h3' => __('H3'),
@@ -66,87 +130,94 @@ class WidgetHello extends WidgetBase
                     'div' => __('div'),
                     'span' => __('span'),
                     'p' => __('p'),
-                ),
+                ],
                 'default' => 'h2',
-            )
+            ]
         );
 
         $this->addResponsiveControl(
             'align',
-            array(
+            [
                 'label' => __('Alignment'),
                 'type' => ControlsManager::CHOOSE,
-                'options' => array(
-                    'left' => array(
+                'options' => [
+                    'left' => [
                         'title' => __('Left'),
                         'icon' => 'fa fa-align-left',
-                    ),
-                    'center' => array(
+                    ],
+                    'center' => [
                         'title' => __('Center'),
                         'icon' => 'fa fa-align-center',
-                    ),
-                    'right' => array(
+                    ],
+                    'right' => [
                         'title' => __('Right'),
                         'icon' => 'fa fa-align-right',
-                    ),
-                    'justify' => array(
+                    ],
+                    'justify' => [
                         'title' => __('Justified'),
                         'icon' => 'fa fa-align-justify',
-                    ),
-                ),
+                    ],
+                ],
                 'default' => '',
-                'selectors' => array(
+                'selectors' => [
                     '{{WRAPPER}}' => 'text-align: {{VALUE}};',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->addControl(
             'view',
-            array(
+            [
                 'label' => __('View'),
                 'type' => ControlsManager::HIDDEN,
                 'default' => 'traditional',
-            )
+            ]
         );
 
         $this->endControlsSection();
 
         $this->startControlsSection(
             'section_title_style',
-            array(
+            [
                 'label' => $this->l('Hello'),
                 'tab' => ControlsManager::TAB_STYLE,
-            )
+            ]
         );
 
         $this->addControl(
             'title_color',
-            array(
+            [
                 'label' => __('Text Color'),
                 'type' => ControlsManager::COLOR,
-                'scheme' => array(
+                'scheme' => [
                     'type' => SchemeColor::getType(),
                     'value' => SchemeColor::COLOR_1,
-                ),
-                'selectors' => array(
+                ],
+                'selectors' => [
                     '{{WRAPPER}} .elementor-heading-title' => 'color: {{VALUE}};',
-                ),
-            )
+                ],
+            ]
         );
 
         $this->addGroupControl(
             GroupControlTypography::getType(),
-            array(
+            [
                 'name' => 'typography',
                 'scheme' => SchemeTypography::TYPOGRAPHY_1,
                 'selector' => '{{WRAPPER}} .elementor-heading-title',
-            )
+            ]
         );
 
         $this->endControlsSection();
     }
 
+    /**
+     * Render hello widget output on the frontend.
+     *
+     * Written in PHP and used to generate the final HTML.
+     *
+     * @access protected
+     */
     protected function render()
     {
         $settings = $this->getSettings();
@@ -166,6 +237,13 @@ class WidgetHello extends WidgetBase
         );
     }
 
+    /**
+     * Render hello widget output in the editor.
+     *
+     * Written as a Backbone JavaScript template and used to generate the live preview.
+     *
+     * @access protected
+     */
     protected function _contentTemplate()
     {
         ?>
@@ -178,6 +256,15 @@ class WidgetHello extends WidgetBase
         <?php
     }
 
+    /**
+     * Get translation for a given widget text
+     *
+     * @access protected
+     *
+     * @param string $string    String to translate
+     *
+     * @return string Translation
+     */
     protected function l($string)
     {
         return translate($string, 'hellowidget', basename(__FILE__, '.php'));
