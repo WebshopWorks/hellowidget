@@ -1,12 +1,15 @@
 <?php
 /**
  * Hello Widget for Creative Elements
+ * https://github.com/WebshopWorks/hellowidget
  *
  * @author    WebshopWorks
- * @copyright 2021 WebshopWorks.com
+ * @copyright 2020-2025 WebshopWorks.com
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html
  */
-
-defined('_PS_VERSION_') or die;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
 class HelloWidget extends Module
 {
@@ -20,12 +23,12 @@ class HelloWidget extends Module
     {
         $this->name = 'hellowidget';
         $this->tab = 'front_office_features';
-        $this->version = '0.2.0';
+        $this->version = '0.3.0';
         $this->author = 'WebshopWorks';
-        $this->ps_versions_compliancy = ['min' => '1.7.0', 'max' => '1.7'];
+        $this->ps_versions_compliancy = ['min' => '1.7.4', 'max' => _PS_VERSION_];
         $this->bootstrap = true;
         $this->displayName = $this->l('Hello Widget');
-        $this->description = $this->l('This is a sample widget, what you can use to extend Creative Elements - Elementor based PageBuilder.');
+        $this->description = $this->l('This is a sample widget, what you can use to extend Creative Elements - live Theme & Page Builder.');
 
         parent::__construct($this->name, null);
     }
@@ -55,7 +58,6 @@ class HelloWidget extends Module
     {
         $elements_manager->addCategory('my-widgets', [
             'title' => $this->l('My Widgets'),
-            'icon' => 'fa fa-font',
         ]);
     }
 
@@ -66,6 +68,6 @@ class HelloWidget extends Module
     {
         include _PS_MODULE_DIR_ . $this->name . '/classes/WidgetHello.php';
 
-        $widgets_manager->registerWidgetType(new CE\WidgetHello());
+        $widgets_manager->registerWidgetType(new MyNamespace\WidgetHello());
     }
 }

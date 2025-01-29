@@ -1,14 +1,22 @@
 <?php
 /**
- * Hello widget for Creative Elements
+ * Hello Widget for Creative Elements
+ * https://github.com/WebshopWorks/hellowidget
  *
  * @author    WebshopWorks
- * @copyright 2021 WebshopWorks.com
+ * @copyright 2020-2025 WebshopWorks.com
+ * @license   https://www.gnu.org/licenses/gpl-3.0.html
  */
+namespace MyNamespace;
 
-namespace CE;
+if (!defined('_PS_VERSION_')) {
+    exit;
+}
 
-defined('_PS_VERSION_') or die;
+use CE\ControlsManager;
+use CE\GroupControlTypography;
+use CE\WidgetBase;
+use function CE\__;
 
 /**
  * Hello widget class.
@@ -22,13 +30,11 @@ class WidgetHello extends WidgetBase
      *
      * Retrieve hello widget name.
      *
-     * @access public
-     *
-     * @return string Widget name.
+     * @return string Widget name
      */
     public function getName()
     {
-        return 'hello';
+        return 'my-hello';
     }
 
     /**
@@ -36,9 +42,7 @@ class WidgetHello extends WidgetBase
      *
      * Retrieve hello widget title.
      *
-     * @access public
-     *
-     * @return string Widget title.
+     * @return string Widget title
      */
     public function getTitle()
     {
@@ -50,25 +54,20 @@ class WidgetHello extends WidgetBase
      *
      * Retrieve hello widget icon.
      *
-     * @access public
-     *
-     * @return string Widget icon.
+     * @return string Widget icon
      */
     public function getIcon()
     {
-        return 'fa fa-hand-paper-o';
+        return 'eicon-heading';
     }
 
     /**
      * Get widget categories.
      *
      * Retrieve the list of categories the hello widget belongs to.
-     *
      * Used to determine where to display the widget in the editor.
      *
-     * @access public
-     *
-     * @return array Widget categories.
+     * @return array Widget categories
      */
     public function getCategories()
     {
@@ -80,9 +79,7 @@ class WidgetHello extends WidgetBase
      *
      * Retrieve the list of keywords the widget belongs to.
      *
-     * @access public
-     *
-     * @return array Widget keywords.
+     * @return array Widget keywords
      */
     public function getKeywords()
     {
@@ -93,8 +90,6 @@ class WidgetHello extends WidgetBase
      * Register hello widget controls.
      *
      * Adds different input fields to allow the user to change and customize the widget settings.
-     *
-     * @access protected
      */
     protected function _registerControls()
     {
@@ -143,34 +138,25 @@ class WidgetHello extends WidgetBase
                 'options' => [
                     'left' => [
                         'title' => __('Left'),
-                        'icon' => 'fa fa-align-left',
+                        'icon' => 'eicon-text-align-left',
                     ],
                     'center' => [
                         'title' => __('Center'),
-                        'icon' => 'fa fa-align-center',
+                        'icon' => 'eicon-text-align-center',
                     ],
                     'right' => [
                         'title' => __('Right'),
-                        'icon' => 'fa fa-align-right',
+                        'icon' => 'eicon-text-align-right',
                     ],
                     'justify' => [
                         'title' => __('Justified'),
-                        'icon' => 'fa fa-align-justify',
+                        'icon' => 'eicon-text-align-justify',
                     ],
                 ],
                 'default' => '',
                 'selectors' => [
                     '{{WRAPPER}}' => 'text-align: {{VALUE}};',
                 ],
-            ]
-        );
-
-        $this->addControl(
-            'view',
-            [
-                'label' => __('View'),
-                'type' => ControlsManager::HIDDEN,
-                'default' => 'traditional',
             ]
         );
 
@@ -189,10 +175,6 @@ class WidgetHello extends WidgetBase
             [
                 'label' => __('Text Color'),
                 'type' => ControlsManager::COLOR,
-                'scheme' => [
-                    'type' => SchemeColor::getType(),
-                    'value' => SchemeColor::COLOR_1,
-                ],
                 'selectors' => [
                     '{{WRAPPER}} .elementor-heading-title' => 'color: {{VALUE}};',
                 ],
@@ -203,7 +185,6 @@ class WidgetHello extends WidgetBase
             GroupControlTypography::getType(),
             [
                 'name' => 'typography',
-                'scheme' => SchemeTypography::TYPOGRAPHY_1,
                 'selector' => '{{WRAPPER}} .elementor-heading-title',
             ]
         );
@@ -215,18 +196,12 @@ class WidgetHello extends WidgetBase
      * Render hello widget output on the frontend.
      *
      * Written in PHP and used to generate the final HTML.
-     *
-     * @access protected
      */
     protected function render()
     {
-        $settings = $this->getSettings();
+        $settings = $this->getSettingsForDisplay();
 
         $this->addRenderAttribute('heading', 'class', 'elementor-heading-title');
-
-        if (!empty($settings['size'])) {
-            $this->addRenderAttribute('heading', 'class', 'elementor-size-' . $settings['size']);
-        }
 
         echo sprintf(
             '<%1$s %2$s>%3$s %4$s</%1$s>',
@@ -241,32 +216,25 @@ class WidgetHello extends WidgetBase
      * Render hello widget output in the editor.
      *
      * Written as a Backbone JavaScript template and used to generate the live preview.
-     *
-     * @access protected
      */
-    protected function _contentTemplate()
+    protected function contentTemplate()
     {
         ?>
-        <#
-        var hello = <?php echo json_encode($this->l('Hello')) ?>,
-            name = settings.name || '';
-
-        print('<' + settings.header_size  + ' class="elementor-heading-title elementor-size-' + settings.size + '">Hello ' + name + '</' + settings.header_size + '>');
-        #>
+        <{{ settings.header_size }} class="elementor-heading-title">
+            <?php echo $this->l('Hello'); ?> {{{ settings.name }}}
+        </{{ settings.header_size }}>
         <?php
     }
 
     /**
      * Get translation for a given widget text
      *
-     * @access protected
-     *
-     * @param string $string    String to translate
+     * @param string $string String to translate
      *
      * @return string Translation
      */
     protected function l($string)
     {
-        return translate($string, 'hellowidget', basename(__FILE__, '.php'));
+        return \Translate::getModuleTranslation('hellowidget', $string, basename(__FILE__, '.php'));
     }
 }
